@@ -1,5 +1,11 @@
+# import flask inbuilt functions
 from flask import Flask, redirect, url_for
-from .models import db, User, Journal
+
+# import flask extensions
+from .extensions import db, bootstrap
+
+# import variables for configuring flask shell context
+from .models import User, Journal
 from .config import config
 
 # import blueprints
@@ -29,6 +35,7 @@ def create_app(app_config):
 
     # initialize extensions
     db.init_app(app)
+    bootstrap.init_app(app)
 
 
     return app
