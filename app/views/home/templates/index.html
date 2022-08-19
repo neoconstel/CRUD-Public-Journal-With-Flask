@@ -1,5 +1,28 @@
 {% extends "base.html" %}
 
+{% block title %}
+    Public Journal - Home
+{% endblock title %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{url_for('.static', filename='css/home.css')}}">
+{% endblock styles %}
+
+{% block scripts %}
+{% endblock scripts %}
+
 {% block content %}
-<h1>This is the homepage!</h1>
+<h1>World of Journals</h1>
+<p>Where every thought finds a safe haven...</p>
+<hr>
+{% for journal in journals %}
+    <li>
+        <div>
+            <p>Title: {{journal.title}}</p>
+            <p>Author: {{journal.author.username}}</p>
+            <p>{{journal.content}}</p>
+        </div>
+        <hr>
+    </li>
+{% endfor %}
 {% endblock content %}
