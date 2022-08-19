@@ -2,7 +2,7 @@
 from flask import Flask, redirect, url_for
 
 # import flask extensions
-from .extensions import db, bootstrap
+from .extensions import db, bootstrap, migrate
 
 # import variables for configuring flask shell context
 from .models import User, Journal
@@ -35,6 +35,7 @@ def create_app(app_config):
 
     # initialize extensions
     db.init_app(app)
+    migrate.init_app(app, db=db)
     bootstrap.init_app(app)
 
 
