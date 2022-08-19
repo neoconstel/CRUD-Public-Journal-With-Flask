@@ -1,4 +1,3 @@
-from sqlalchemy import ForeignKey
 from .extensions import db
 
 
@@ -7,7 +6,11 @@ class Journal(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100))
     content = db.Column(db.String(1000))
-    author_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    author_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+
+
+    def __repr__(self) -> str:
+        return f"< Journal {self.title} >"
 
 
 class User(db.Model):
@@ -16,3 +19,7 @@ class User(db.Model):
     username = db.Column(db.String(50))
     password = db.Column(db.String(50))
     journals = db.relationship(Journal, backref="author", lazy="dynamic")
+
+
+    def __repr__(self) -> str:
+        return f"< User {self.username} >"
