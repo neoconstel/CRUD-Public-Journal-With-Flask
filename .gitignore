@@ -1,0 +1,11 @@
+
+/notes.txt
+__pycache__
+
+.env
+credentials
+secrets
+
+*.db
+*.sqlite
+*.sqlite3
