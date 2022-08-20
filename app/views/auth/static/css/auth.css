@@ -1,0 +1,9 @@
+form {
+    width: 450px;
+    margin: 0 auto;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 450px;
+}
