@@ -1,3 +1,4 @@
+from email.policy import default
 from .extensions import db
 
 
@@ -6,6 +7,8 @@ class Journal(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100))
     content = db.Column(db.String(1000))
+    is_private = db.Column(db.Boolean)
+    is_anonymous = db.Column(db.Boolean)
     author_id = db.Column(db.Integer, db.ForeignKey("users.id"))
 
 
