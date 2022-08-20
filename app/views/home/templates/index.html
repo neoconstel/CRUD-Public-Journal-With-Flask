@@ -5,6 +5,7 @@
 {% endblock title %}
 
 {% block styles %}
+{{super()}}
 <link rel="stylesheet" href="{{url_for('.static', filename='css/home.css')}}">
 {% endblock styles %}
 
@@ -14,12 +15,19 @@
 {% block content %}
 <h1>World of Journals</h1>
 <p>Where every thought finds a safe haven...</p>
-<hr>
+<h4 class="welcome">Welcome, <span class="username">Guest</span>!</h4>
+<div class="nav">
+    <button type="button" class="btn btn-primary">Login</button>
+    <button type="button" class="btn btn-primary">Add Journal</button>
+</div>
+
 {% for journal in journals %}
     <li>
-        <div>
+        <div class="journal">
             <p>Title: {{journal.title}}</p>
             <p>Author: {{journal.author.username}}</p>
+            <p>Private: {{journal.is_private}}</p>
+            <p>Anonymous: {{journal.is_anonymous}}</p>
             <p>{{journal.content}}</p>
         </div>
         <hr>
