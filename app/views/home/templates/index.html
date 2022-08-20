@@ -19,6 +19,7 @@
 <div class="nav">
     <button type="button" class="btn btn-primary">Login</button>
     <button type="button" class="btn btn-primary">Add Journal</button>
+    <button type="button" class="btn btn-primary">Logout</button>
 </div>
 
 {% for journal in journals %}
@@ -29,6 +30,12 @@
             <p>Private: {{journal.is_private}}</p>
             <p>Anonymous: {{journal.is_anonymous}}</p>
             <p>{{journal.content}}</p>
+        </div>
+        <div class="actions">
+            <button type="button" class="btn btn-primary">Read</button>
+            <button type="button" class="btn btn-primary">Edit</button>
+            <button type="button" class="btn btn-primary">Delete</button>
+            <button type="button" class="btn btn-primary">Add Journal</button>
         </div>
         <hr>
     </li>
