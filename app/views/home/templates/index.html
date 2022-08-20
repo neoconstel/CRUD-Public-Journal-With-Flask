@@ -36,7 +36,12 @@
     <li>
         <div class="journal">
             <p>Title: {{journal.title}}</p>
-            <p>Author: {{journal.author.username}}</p>
+            <p>Author: 
+                {% if journal.is_anonymous %}
+                 Anonymous
+                {% else %}
+                {{journal.author.username}}</p>
+                {% endif %}
             <p>Private: {{journal.is_private}}</p>
             <p>Anonymous: {{journal.is_anonymous}}</p>
             <p>{{journal.content}}</p>
