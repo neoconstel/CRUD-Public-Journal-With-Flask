@@ -1,3 +1,4 @@
+from ftplib import error_temp
 from flask import Blueprint, render_template, request, url_for,redirect
 from .forms import RegisterForm, LoginForm
 from app.models import db, User
@@ -19,10 +20,15 @@ def register():
             username = form.username.data
 
             user = User.query.filter(User.username==username).first()
+            error_msg = None
             if user:
-                print(f"\n\n\nUser: {username} already exists!\n\n\n")
+                error_msg =  f"\n\n\nUser: {username} already exists!\n\n\n"
+            elif username.lower() == "guest" or username.lower() == "anonymous":
+                error_msg =  f"\n\n\nUsername: '{username}' not allowed!\n\n\n"
 
-                return redirect(url_for("auth.register"))
+            if error_msg:
+                print(error_msg)
+                return redirect(request.url)
             
             else:
                 user = User(username=username)
