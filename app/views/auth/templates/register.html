@@ -23,6 +23,7 @@
     {{form.password1}} <br><br>
     {{form.password2.label}} <br>
     {{form.password2}} <br><br>
-    {{form.submit}}
+    {{form.submit}} <br>
+    <p>Have an account already? <a href="{{url_for('auth.login')}}">Login</a></p>
 </form>
 {% endblock content %}

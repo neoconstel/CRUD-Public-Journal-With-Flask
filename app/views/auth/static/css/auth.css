@@ -12,3 +12,11 @@ input[type="submit"] {
     background-color: rgb(30, 61, 61);
     margin-right: 10px;
 }
+
+a {
+    color: rgb(88, 255, 46);
+}
+
+a:hover {
+    color: white;
+}
