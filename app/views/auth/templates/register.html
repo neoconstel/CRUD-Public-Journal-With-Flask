@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Register
+{% endblock title %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('.static', filename='css/auth.css')}}">
+{% endblock styles %}
+
+{% block scripts %}
+{% endblock scripts %}
+
+{% block content %}
+
+<form action="{{url_for('auth.register')}}" method="POST">
+    {{ form.hidden_tag() }}
+    <h1>Register</h1> <br>
+    {{form.username.label}} <br>
+    {{form.username}} <br><br>
+    {{form.password1.label}} <br>
+    {{form.password1}} <br><br>
+    {{form.password2.label}} <br>
+    {{form.password2}} <br><br>
+    {{form.submit}}
+</form>
+{% endblock content %}

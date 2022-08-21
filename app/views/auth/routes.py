@@ -1,10 +1,41 @@
 from flask import Blueprint, render_template, request, url_for,redirect
 from .forms import RegisterForm, LoginForm
-from app.models import User
+from app.models import db, User
 from flask_login import login_user, logout_user
 
 auth_bp = Blueprint("auth", __name__, url_prefix="/auth",
                         template_folder="templates", static_folder="static")
+
+
+@auth_bp.route("/register", methods=["GET", "POST"])
+def register():
+    form=RegisterForm()
+
+    if request.method == "GET":
+        return render_template("register.html", form=form)
+
+    elif request.method == "POST":
+        if form.validate_on_submit():
+            username = form.username.data
+
+            user = User.query.filter(User.username==username).first()
+            if user:
+                print(f"\n\n\nUser: {username} already exists!\n\n\n")
+
+                return redirect(url_for("auth.register"))
+            
+            else:
+                user = User(username=username)
+                db.session.add(user)
+                db.session.commit()
+                print(f"\n\n\nNew user: {username} just signed up!\n\n\n")
+                login_user(user=user, remember=True)
+                return redirect(url_for("home.homepage"))
+
+        else:
+        # didn't validate
+            print("\n\n\nDid not validate on submit\n\n\n")
+            return redirect(url_for("auth.register"))
 
 
 @auth_bp.route("/login", methods=["GET", "POST"])
