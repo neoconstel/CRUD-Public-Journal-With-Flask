@@ -11,6 +11,7 @@ from .config import config
 # import blueprints
 from .views.home.routes import home_bp
 from .views.auth.routes import auth_bp
+from .views.journal.routes import journal_bp
 
 
 def create_app(app_config):
@@ -33,6 +34,7 @@ def create_app(app_config):
     # register blueprints
     app.register_blueprint(home_bp)
     app.register_blueprint(auth_bp)
+    app.register_blueprint(journal_bp)
 
 
     # initialize extensions
