@@ -8,8 +8,10 @@ home_bp = Blueprint("home", __name__, url_prefix="/home",
 
 
 @home_bp.route("/")
-def homepage():    
-    user = User.query.filter(User.username==current_user.username).first()
+def homepage():
+    user = None
+    if current_user.is_authenticated:    
+        user = User.query.filter(User.username==current_user.username).first()
     journals = Journal.query.filter( (Journal.author==user) | (Journal.is_private==None) | (Journal.is_private==False) ).all()
     return render_template("index.html", journals=journals)
     
