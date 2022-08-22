@@ -1,6 +1,8 @@
 body {
     background-color: darkslategrey;
     color: cyan;
+    text-align: center;
+    list-style-type: none;
 }
 
 form {

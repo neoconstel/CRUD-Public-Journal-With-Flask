@@ -35,3 +35,16 @@ def add_journal():
         # didn't validate
             print("\n\n\nDid not validate on submit\n\n\n")
             return redirect(url_for("journal.add_journal"))
+
+
+@journal_bp.route("/read/<int:id>")
+def read_journal(id):
+
+    if request.method == "GET":
+        journal = Journal.query.get(id)
+
+        return render_template("read_journal.html", journal=journal)
+
+
+# def journal_grants_read_access
+# def journal_grants_write_access

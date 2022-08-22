@@ -25,8 +25,6 @@
 <div class="nav">
     <form id="login-form" action="{{url_for('auth.login')}}">        
     </form>
-    <form id="add-journal-form" action="{{url_for('journal.add_journal')}}"></form>        
-    </form>
     <form id="logout-form" action="{{url_for('auth.logout')}}"></form>        
     </form>
     {% if current_user.is_anonymous %}
@@ -40,6 +38,8 @@
     {% endif %}
 </div>
 
+<form id="add-journal-form" action="{{url_for('journal.add_journal')}}"></form>        
+</form>
 {% for journal in journals %}
     <li>
         <div class="journal">
@@ -55,7 +55,9 @@
             <p>{{journal.content}}</p>
         </div>
         <div class="actions">
-            <button type="button" class="btn btn-primary">Read</button>
+            <form id="read-journal-{{journal.id}}-form" action="{{url_for('journal.read_journal', id=journal.id)}}"></form>        
+            </form>
+            <button type="sumbit" form="read-journal-{{journal.id}}-form" class="btn btn-primary">Read</button>
             {% if current_user.is_authenticated and journal.author.username == current_user.username %}
             <button type="button" class="btn btn-primary">Edit</button>
             <button type="button" class="btn btn-primary">Delete</button>

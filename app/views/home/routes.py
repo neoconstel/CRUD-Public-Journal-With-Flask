@@ -12,6 +12,6 @@ def homepage():
     user = None
     if current_user.is_authenticated:    
         user = User.query.filter(User.username==current_user.username).first()
-    journals = Journal.query.filter( (Journal.author==user) | (Journal.is_private==None) | (Journal.is_private==False) ).all()
+    journals = Journal.query.filter( (Journal.author==user) | (Journal.is_private==None) | (Journal.is_private==False) ).order_by(Journal.id.desc()).all()
     return render_template("index.html", journals=journals)
     
