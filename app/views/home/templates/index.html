@@ -5,7 +5,6 @@
 {% endblock title %}
 
 {% block styles %}
-{{super()}}
 <link rel="stylesheet" href="{{url_for('.static', filename='css/home.css')}}">
 {% endblock styles %}
 
@@ -22,7 +21,7 @@
         Guest
     {%- endif -%}
 </span>!</h4>
-<div class="nav">
+<div class="top-bar">
     <form id="login-form" action="{{url_for('auth.login')}}">        
     </form>
     <form id="logout-form" action="{{url_for('auth.logout')}}"></form>        

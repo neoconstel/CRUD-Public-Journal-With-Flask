@@ -40,7 +40,6 @@ def create_app(app_config):
     # initialize extensions
     db.init_app(app)
     migrate.init_app(app, db=db)
-    bootstrap.init_app(app)
     login_manager.init_app(app)
 
 

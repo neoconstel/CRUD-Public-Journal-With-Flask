@@ -10,11 +10,6 @@ from flask_migrate import Migrate
 migrate = Migrate()
 
 
-# bootstrap
-from flask_bootstrap import Bootstrap
-bootstrap = Bootstrap()
-
-
 # user login
 from flask_login import LoginManager
 login_manager = LoginManager()
