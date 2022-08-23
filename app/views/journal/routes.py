@@ -46,5 +46,15 @@ def read_journal(id):
         return render_template("read_journal.html", journal=journal)
 
 
+@journal_bp.route("/delete/<int:id>", methods=["POST"])
+def delete_journal(id):
+    if request.method == "POST":
+        journal = Journal.query.get(id)
+        db.session.delete(journal)
+        db.session.commit()
+        print(f"J\n\n\nJournal: {journal.title} deleted\n\n\n")
+        return redirect(request.referrer)
+
+
 # def journal_grants_read_access
 # def journal_grants_write_access
