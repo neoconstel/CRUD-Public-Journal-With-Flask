@@ -2,7 +2,7 @@
 from flask import Flask, redirect, url_for
 
 # import flask extensions
-from .extensions import db, bootstrap, migrate, login_manager
+from .extensions import db, migrate, login_manager, bcrypt
 
 # import variables for configuring flask shell context
 from .models import User, Journal
@@ -41,6 +41,8 @@ def create_app(app_config):
     db.init_app(app)
     migrate.init_app(app, db=db)
     login_manager.init_app(app)
+    bcrypt.init_app(app)
 
 
     return app
+    

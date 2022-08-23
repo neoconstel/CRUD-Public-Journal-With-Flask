@@ -1,8 +1,8 @@
-from ftplib import error_temp
 from flask import Blueprint, render_template, request, url_for,redirect
 from .forms import RegisterForm, LoginForm
 from app.models import db, User
 from flask_login import login_user, logout_user
+from app.extensions import bcrypt
 
 auth_bp = Blueprint("auth", __name__, url_prefix="/auth",
                         template_folder="templates", static_folder="static")
@@ -18,6 +18,8 @@ def register():
     elif request.method == "POST":
         if form.validate_on_submit():
             username = form.username.data
+            password = form.password1.data
+            password_hash = bcrypt.generate_password_hash(password=password)
 
             user = User.query.filter(User.username==username).first()
             error_msg = None
@@ -31,7 +33,7 @@ def register():
                 return redirect(request.url)
             
             else:
-                user = User(username=username)
+                user = User(username=username, password=password_hash)
                 db.session.add(user)
                 db.session.commit()
                 print(f"\n\n\nNew user: {username} just signed up!\n\n\n")
@@ -55,9 +57,11 @@ def login():
         if form.validate_on_submit():
             username = form.username.data
             remember_me = form.remember_me.data
+            password = form.password.data
+            
 
             user = User.query.filter(User.username==username).first()
-            if user:
+            if user and bcrypt.check_password_hash(user.password, password):
                 login_user(user=user, remember=remember_me)
                 print(f"\n\n\n{username} has logged in!\n\n\n")
 
@@ -65,7 +69,7 @@ def login():
             
             else:
                 print(f"\n\n\nNo user with name {username} exists!\n\n\n")
-                return redirect(url_for("auth.login"))
+                return redirect(request.url)
 
         else:
         # didn't validate
