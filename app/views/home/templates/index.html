@@ -34,6 +34,35 @@
         <p>{{journal.content}}</p>
     </div>
     <div class="action-modals">
+        <!-- EditModal -->
+        <div class="modal fade" id="edit-journal-{{journal.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit Journal: "{{journal.title}}"</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="edit-journal-{{journal.id}}-form" action="{{url_for('journal.edit_journal', id=journal.id)}}" method="POST">
+                            {{ edit_form.hidden_tag() }}
+                            {{edit_form.title.label}} <br>
+                            {{edit_form.title(value=journal.title)}} <br><br>
+                            {{edit_form.content.label}} <br>
+                            <textarea id="content" maxlength="1000" minlength="1" name="content" required="">{{journal.content}}</textarea> <br><br>
+                            {{edit_form.is_private(checked=journal.is_private)}}
+                            {{edit_form.is_private.label}} <br>
+                            {{edit_form.is_anonymous(checked=journal.is_anonymous)}}
+                            {{edit_form.is_anonymous.label}} <br>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        {{edit_form.submit(class_="btn btn-primary", form="edit-journal-" + journal.id|string + "-form")}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- DeleteModal -->
         <div class="modal fade" id="delete-journal-{{journal.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -63,9 +92,12 @@
         </form>
     </div>    
     <div class="action-buttons">
-        <button type="sumbit" form="read-journal-{{journal.id}}-form" class="btn btn-primary">Read</button> {% if current_user.is_authenticated and journal.author.username == current_user.username %}
-        <button type="button" class="btn btn-primary">Edit</button>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#delete-journal-{{journal.id}}">Delete</button> {% endif %} {{self.add_journal_button()}}
+        <button type="sumbit" form="read-journal-{{journal.id}}-form" class="btn btn-primary">Read</button>
+        {% if current_user.is_authenticated and journal.author.username == current_user.username %}
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit-journal-{{journal.id}}">Edit</button>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#delete-journal-{{journal.id}}">Delete</button> 
+        {% endif %}
+        {{self.add_journal_button()}}
     </div>
     <hr>
 </li>

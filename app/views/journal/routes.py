@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, url_for,redirect
 from flask_login import current_user
-from .forms import AddJournalForm
+from matplotlib.pyplot import title
+from .forms import AddJournalForm, EditJournalForm
 from app.models import db, Journal, User
 
 journal_bp = Blueprint("journal", __name__, url_prefix="/journal",
@@ -46,6 +47,27 @@ def read_journal(id):
         return render_template("read_journal.html", journal=journal)
 
 
+@journal_bp.route("/edit/<int:id>", methods=["POST"])
+def edit_journal(id):
+    form = EditJournalForm()
+
+    if request.method == "POST":
+        
+        if form.validate_on_submit():
+            journal = Journal.query.get(id)
+            print(f"\n\n\nEditing Journal: {journal.title}\n\n\n")
+
+            journal.title = form.title.data
+            journal.content = form.content.data
+            journal.is_private = form.is_private.data
+            journal.is_anonymous = form.is_anonymous.data
+
+            db.session.add(journal)
+            db.session.commit()
+
+            return redirect(url_for("home.homepage"))
+
+
 @journal_bp.route("/delete/<int:id>", methods=["POST"])
 def delete_journal(id):
     if request.method == "POST":
@@ -58,3 +80,4 @@ def delete_journal(id):
 
 # def journal_grants_read_access
 # def journal_grants_write_access
+

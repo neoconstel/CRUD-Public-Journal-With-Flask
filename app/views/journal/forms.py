@@ -1,3 +1,4 @@
+from email.policy import default
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, Length
@@ -9,3 +10,7 @@ class AddJournalForm(FlaskForm):
     is_private = BooleanField(label="Keep Private")
     is_anonymous = BooleanField(label="Share Anonymously")
     submit = SubmitField(label="Add This")
+
+
+class EditJournalForm(AddJournalForm):
+    submit = SubmitField(label="Save Changes")
