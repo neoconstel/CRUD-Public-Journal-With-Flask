@@ -1,11 +1,18 @@
 from flask import Blueprint, render_template, request, url_for,redirect
 from flask_login import current_user
-from matplotlib.pyplot import title
+
 from .forms import AddJournalForm, EditJournalForm
 from app.models import db, Journal, User
 
 journal_bp = Blueprint("journal", __name__, url_prefix="/journal",
                         template_folder="templates", static_folder="static")
+
+PERMISSIONS = {
+    "none": 0,
+    "r": 1,
+    "w": 2,
+    "rw": 3
+}
 
 
 @journal_bp.route("/add", methods=["GET", "POST"])
@@ -43,6 +50,9 @@ def read_journal(id):
 
     if request.method == "GET":
         journal = Journal.query.get(id)
+        
+        if not journal_access_granted(journal=journal, permission="r"):
+            return f"<h1>Oops! 😳 Permission Denied</h1>"
 
         return render_template("read_journal.html", journal=journal)
 
@@ -55,6 +65,10 @@ def edit_journal(id):
         
         if form.validate_on_submit():
             journal = Journal.query.get(id)
+
+            if not journal_access_granted(journal=journal, permission="rw"):
+                return f"<h1>Oops! 😳 Permission Denied</h1>"
+            
             print(f"\n\n\nEditing Journal: {journal.title}\n\n\n")
 
             journal.title = form.title.data
@@ -72,12 +86,30 @@ def edit_journal(id):
 def delete_journal(id):
     if request.method == "POST":
         journal = Journal.query.get(id)
+        if not journal_access_granted(journal=journal, permission="w"):
+            return f"<h1>Oops! 😳 Permission Denied</h1>"
+
         db.session.delete(journal)
         db.session.commit()
         print(f"J\n\n\nJournal: {journal.title} deleted\n\n\n")
         return redirect(request.referrer)
 
 
-# def journal_grants_read_access
-# def journal_grants_write_access
+def journal_permission(journal: Journal, user: User):
+    if journal.author == user:
+        return PERMISSIONS["rw"]
 
+    elif not journal.is_private:
+        return PERMISSIONS["r"]
+
+    else:
+        return PERMISSIONS["none"]
+
+
+def journal_access_granted(journal: Journal, permission: str):
+    required_permission = PERMISSIONS[permission]
+    user = User.query.filter(User.username==current_user.username).first()
+    if journal_permission(journal=journal, user=user) < required_permission:
+        return False
+    return True
+    
