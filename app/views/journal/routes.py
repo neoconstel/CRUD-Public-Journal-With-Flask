@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, url_for,redirect
-from flask_login import current_user
+from flask_login import current_user, login_required
 
 from .forms import AddJournalForm, EditJournalForm
 from app.models import db, Journal, User
@@ -16,6 +16,7 @@ PERMISSIONS = {
 
 
 @journal_bp.route("/add", methods=["GET", "POST"])
+@login_required
 def add_journal():
     form=AddJournalForm()
 
@@ -58,6 +59,7 @@ def read_journal(id):
 
 
 @journal_bp.route("/edit/<int:id>", methods=["POST"])
+@login_required
 def edit_journal(id):
     form = EditJournalForm()
 
@@ -83,6 +85,7 @@ def edit_journal(id):
 
 
 @journal_bp.route("/delete/<int:id>", methods=["POST"])
+@login_required
 def delete_journal(id):
     if request.method == "POST":
         journal = Journal.query.get(id)
