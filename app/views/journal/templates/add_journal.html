@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Add Journal
+{% endblock title %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{url_for('.static', filename='css/journal.css')}}">
+{% endblock styles %}
+
+{% block scripts %}
+{% endblock scripts %}
+
+{% block content %}
+
+<form action="{{url_for('journal.add_journal')}}" method="POST">
+    {{ form.hidden_tag() }}
+    <h1>Add Journal</h1> <br>
+    {{form.title.label}} <br>
+    {{form.title}} <br><br>
+    {{form.content.label}} <br>
+    {{form.content}} <br><br>
+    {{form.is_private(checked=False)}}
+    {{form.is_private.label}} <br>
+    {{form.is_anonymous(checked=False)}}
+    {{form.is_anonymous.label}} <br>
+    {{form.submit}}
+</form>
+<form action="{{url_for('home.homepage')}}">
+    <button type="submit" class="btn btn-primary">Cancel</button>
+</form>
+{% endblock content %}

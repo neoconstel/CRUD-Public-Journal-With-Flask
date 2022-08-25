@@ -1,0 +1,48 @@
+body {
+    background-color: darkslategrey;
+    color: cyan;
+    text-align: center;
+    list-style-type: none;
+}
+
+form {
+    width: 450px;
+    margin: 0 auto;
+}
+
+.d-inline-block {
+    width: min(200px, 50%)
+}
+
+.modal-content {
+    background-color: darkslategrey;
+}
+
+input[type="text"],
+input[type="password"],
+textarea {
+    width: 450px;
+    color: darkslategrey;
+}
+
+textarea {
+    height: 200px;
+}
+
+input[type="submit"] {
+    background-color: rgb(30, 61, 61);
+    margin-right: 10px;
+}
+
+a {
+    color: rgb(88, 255, 46);
+}
+
+a:hover {
+    color: white;
+}
+
+.error {
+    color: rgb(255, 0, 0);
+    background-color: rgb(88, 255, 46);
+}

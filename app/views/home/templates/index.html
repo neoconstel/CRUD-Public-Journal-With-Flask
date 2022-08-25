@@ -1,0 +1,120 @@
+{% extends "base.html" %} {% block title %} Public Journal - Home {% endblock title %} {% block styles %}
+<link rel="stylesheet" href="{{url_for('.static', filename='css/home.css')}}"> {% endblock styles %} {% block scripts %} {% endblock scripts %} {% block content %}
+<h1>World of Journals</h1>
+<p>Where every thought finds a safe haven...</p>
+<h4 class="welcome">Welcome,<span class="username">
+    {% if current_user.is_authenticated %}
+        {{- current_user.username -}}
+    {% else %}
+        Guest
+    {%- endif -%}
+</span>!</h4>
+<div class="top-bar">
+    <form id="login-form" action="{{url_for('auth.login')}}">
+    </form>
+    <form id="logout-form" action="{{url_for('auth.logout')}}"></form>
+    </form>
+    {% if current_user.is_anonymous %}
+    <button type="submit" form="login-form" class="btn btn-primary">Login</button> {% endif %} {% block add_journal_button %}
+    <button type="sumbit" form="add-journal-form" class="btn btn-primary">Add Journal</button> {% endblock add_journal_button %} {% if current_user.is_authenticated %}
+    <button type="submit" form="logout-form" class="btn btn-primary">Logout</button> {% endif %}
+</div>
+
+<form id="add-journal-form" action="{{url_for('journal.add_journal')}}"></form>
+</form>
+{% for journal in journals %}
+<li>
+    <div class="journal">
+        <p>Title: {{journal.title}}</p>
+        <p>Author: {% if journal.is_anonymous %} Anonymous {% else %} {{journal.author.username}}
+        </p>
+        {% endif %}
+        <p>Private: {{journal.is_private}}</p>
+        <p>Anonymous: {{journal.is_anonymous}}</p>
+        <p>{{journal.content}}</p>
+    </div>
+    <div class="action-modals">
+        <!-- EditModal -->
+        <div class="modal fade" id="edit-journal-{{journal.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit Journal: "{{journal.title}}"</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="edit-journal-{{journal.id}}-form" action="{{url_for('journal.edit_journal', id=journal.id)}}" method="POST">
+                            {{ edit_form.hidden_tag() }}
+                            {{edit_form.title.label}} <br>
+                            {{edit_form.title(value=journal.title)}} <br><br>
+                            {{edit_form.content.label}} <br>
+                            <textarea id="content" maxlength="1000" minlength="1" name="content" required="">{{journal.content}}</textarea> <br><br>
+                            {{edit_form.is_private(checked=journal.is_private)}}
+                            {{edit_form.is_private.label}} <br>
+                            {{edit_form.is_anonymous(checked=journal.is_anonymous)}}
+                            {{edit_form.is_anonymous.label}} <br>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        {{edit_form.submit(class_="btn btn-primary", form="edit-journal-" + journal.id|string + "-form")}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DeleteModal -->
+        <div class="modal fade" id="delete-journal-{{journal.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Delete Journal: "{{journal.title}}" ?</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>This action is irreversible.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" form="delete-journal-{{journal.id}}-form" class="btn btn-primary">Confirm Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="action-forms">
+        <!-- Read -->
+        <form id="read-journal-{{journal.id}}-form" action="{{url_for('journal.read_journal', id=journal.id)}}"></form>
+        </form>
+
+        <!-- Delete -->
+        <form id="delete-journal-{{journal.id}}-form" action="{{url_for('journal.delete_journal', id=journal.id)}}" method="POST"></form>
+        </form>
+    </div>    
+    <div class="action-buttons">
+        <button type="sumbit" form="read-journal-{{journal.id}}-form" class="btn btn-primary">Read</button>
+        {% if current_user.is_authenticated and journal.author.username == current_user.username %}
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit-journal-{{journal.id}}">Edit</button>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#delete-journal-{{journal.id}}">Delete</button> 
+        {% endif %}
+        {{self.add_journal_button()}}
+    </div>
+    <hr>
+</li>
+{% endfor %}
+
+<!-- pagination (current_page is the pagination object)-->
+
+{% if current_page.has_prev %}
+<form class="d-inline-block" method="POST" action="{{url_for('home.homepage', page=current_page.prev_num)}}">
+    <button type="submit" class="btn btn-primary">Prev Page</button>
+</form>
+{% endif %}
+
+{% if current_page.has_next %}
+<form class="d-inline-block" method="POST" action="{{url_for('home.homepage', page=current_page.next_num)}}">
+    <button type="submit" class="btn btn-primary">Next Page</button>
+</form>
+{% endif %}
+
+{% endblock content %}
