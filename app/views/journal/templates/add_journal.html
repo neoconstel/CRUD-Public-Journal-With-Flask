@@ -26,4 +26,7 @@
     {{form.is_anonymous.label}} <br>
     {{form.submit}}
 </form>
+<form action="{{url_for('home.homepage')}}">
+    <button type="submit" class="btn btn-primary">Cancel</button>
+</form>
 {% endblock content %}

@@ -51,3 +51,4 @@ class LoginForm(FlaskForm):
             pass
         else:
             raise ValidationError(f"No account with such credentials exists!")
+            

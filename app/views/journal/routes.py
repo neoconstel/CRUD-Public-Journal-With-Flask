@@ -108,7 +108,11 @@ def journal_permission(journal: Journal, user: User):
 
 def journal_access_granted(journal: Journal, permission: str):
     required_permission = PERMISSIONS[permission]
-    user = User.query.filter(User.username==current_user.username).first()
+    user = None
+    if current_user.is_authenticated:
+        user = User.query.filter(User.username==current_user.username).first()
+    else:
+        user = User()
     if journal_permission(journal=journal, user=user) < required_permission:
         return False
     return True

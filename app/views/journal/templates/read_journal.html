@@ -16,5 +16,8 @@
 <p>By {{journal.author.username}}</p>
 <hr>
 <p>{{journal.content}}</p>
+<form action="{{url_for('home.homepage')}}">
+    <button type="submit" class="btn btn-primary">Return</button>
+</form>
 
 {% endblock content %}
