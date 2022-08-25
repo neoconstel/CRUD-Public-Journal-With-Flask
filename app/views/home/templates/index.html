@@ -101,4 +101,20 @@
     </div>
     <hr>
 </li>
-{% endfor %} {% endblock content %}
+{% endfor %}
+
+<!-- pagination (current_page is the pagination object)-->
+
+{% if current_page.has_prev %}
+<form class="d-inline-block" method="POST" action="{{url_for('home.homepage', page=current_page.prev_num)}}">
+    <button type="submit" class="btn btn-primary">Prev Page</button>
+</form>
+{% endif %}
+
+{% if current_page.has_next %}
+<form class="d-inline-block" method="POST" action="{{url_for('home.homepage', page=current_page.next_num)}}">
+    <button type="submit" class="btn btn-primary">Next Page</button>
+</form>
+{% endif %}
+
+{% endblock content %}

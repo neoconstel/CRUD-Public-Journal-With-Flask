@@ -10,6 +10,10 @@ form {
     margin: 0 auto;
 }
 
+.d-inline-block {
+    width: min(200px, 50%)
+}
+
 .modal-content {
     background-color: darkslategrey;
 }
