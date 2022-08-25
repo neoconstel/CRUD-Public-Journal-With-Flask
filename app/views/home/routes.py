@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, redirect
 from app.models import User, Journal
 from flask_login import current_user
 from app.views.journal.forms import EditJournalForm
@@ -28,6 +28,15 @@ def homepage():
     current_page = journals_query.paginate(page=page_num, per_page=2)
     journals = current_page.items
 
-    return render_template("index.html", journals=journals,
+
+    # turn post requests into a redirect while retaining the request
+    # parameters, to prevent form re-submission issues when user clicks the
+    # back button on the browser
+
+    if request.method == "GET":
+        return render_template("index.html", journals=journals,
                             edit_form=edit_form, current_page=current_page)
-                            
+    
+    else:
+        return redirect(request.url)
+        
