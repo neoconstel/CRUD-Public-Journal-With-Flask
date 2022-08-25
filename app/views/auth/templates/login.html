@@ -24,5 +24,10 @@
     {{form.remember_me(checked=True)}}
     {{form.remember_me.label}} <br>
     <p>Don't have an account? <a href="{{url_for('auth.register')}}">Register Here</a></p>
+    {% if form.username.errors %}
+        {% for error in form.username.errors %}
+            <span class="error">{{error}}</span>
+        {% endfor %}
+    {% endif %}
 </form>
 {% endblock content %}

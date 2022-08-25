@@ -37,3 +37,8 @@ a {
 a:hover {
     color: white;
 }
+
+.error {
+    color: rgb(255, 0, 0);
+    background-color: rgb(88, 255, 46);
+}

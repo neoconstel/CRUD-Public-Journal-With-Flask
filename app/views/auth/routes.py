@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, url_for,redirect
+from flask import Blueprint, render_template, request, url_for,redirect, g
 from .forms import RegisterForm, LoginForm
 from app.models import db, User
 from flask_login import login_user, logout_user
@@ -7,10 +7,12 @@ from app.extensions import bcrypt
 auth_bp = Blueprint("auth", __name__, url_prefix="/auth",
                         template_folder="templates", static_folder="static")
 
+# to preserve unfinished form entries during a redirect.
+
 
 @auth_bp.route("/register", methods=["GET", "POST"])
 def register():
-    form=RegisterForm()
+    form =  RegisterForm()
 
     if request.method == "GET":
         return render_template("register.html", form=form)
@@ -30,6 +32,8 @@ def register():
 
             if error_msg:
                 print(error_msg)
+
+                unsubmitted_register_form = form
                 return redirect(request.url)
             
             else:
@@ -38,17 +42,18 @@ def register():
                 db.session.commit()
                 print(f"\n\n\nNew user: {username} just signed up!\n\n\n")
                 login_user(user=user, remember=True)
+
                 return redirect(url_for("home.homepage"))
 
         else:
         # didn't validate
             print("\n\n\nDid not validate on submit\n\n\n")
-            return redirect(url_for("auth.register"))
+            return render_template("register.html", form=form)
 
 
 @auth_bp.route("/login", methods=["GET", "POST"])
 def login():
-    form=LoginForm()
+    form = LoginForm()
 
     if request.method == "GET":
         return render_template("login.html", form=form)
@@ -74,7 +79,7 @@ def login():
         else:
         # didn't validate
             print("\n\n\nDid not validate on submit\n\n\n")
-            return redirect(url_for("auth.login"))
+            return render_template("login.html", form=form)
 
 
 @auth_bp.route("/logout")
