@@ -25,7 +25,7 @@ class User(db.Model, UserMixin):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50))
-    password = db.Column(db.String(50))
+    password = db.Column(db.String(1000)) # value stored here is to be a long hash, not the literal password string
     journals = db.relationship(Journal, backref="author", lazy="dynamic")
 
 
