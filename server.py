@@ -1,7 +1,7 @@
 from app import create_app
 from app.config import config
 
-flask_app = create_app(config["development"])
+flask_app = create_app(config["production"])
 
 
 if __name__ == "__main__":
