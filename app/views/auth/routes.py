@@ -22,6 +22,7 @@ def register():
             username = form.username.data
             password = form.password1.data
             password_hash = bcrypt.generate_password_hash(password=password)
+            password_hash = password_hash.decode("utf-8") # binary to string
 
             user = User.query.filter(User.username==username).first()
             error_msg = None
