@@ -25,7 +25,7 @@ def homepage():
     # pagination
     page_num = request.args.get("page")
     page_num = int(page_num) if page_num else None
-    current_page = journals_query.paginate(page=page_num, per_page=2)
+    current_page = journals_query.paginate(page=page_num, per_page=5)
     journals = current_page.items
 
 
