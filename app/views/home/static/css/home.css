@@ -8,6 +8,16 @@
 
 .journal {
     background-color: rgb(30, 61, 61);
-    width: 450px;
-    margin: 0 auto;
+    width: min(350px, 70%);
+    margin: 40px auto 0;
+}
+
+.action-buttons {
+    margin-bottom: 40px;
+}
+
+@media screen and (min-width:500px) {
+    .journal {
+        width: max(350px, 70%);
+    }
 }

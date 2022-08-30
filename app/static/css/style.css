@@ -6,7 +6,7 @@ body {
 }
 
 form {
-    width: 450px;
+    width: 350px;
     margin: 0 auto;
 }
 
@@ -21,7 +21,7 @@ form {
 input[type="text"],
 input[type="password"],
 textarea {
-    width: 450px;
+    width: 350px;
     color: darkslategrey;
 }
 

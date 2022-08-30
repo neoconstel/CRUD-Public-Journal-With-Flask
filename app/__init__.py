@@ -13,6 +13,9 @@ from .views.home.routes import home_bp
 from .views.auth.routes import auth_bp
 from .views.journal.routes import journal_bp
 
+# import python modules
+from datetime import datetime
+
 
 def create_app(app_config):
     app = Flask(__name__)
@@ -22,6 +25,12 @@ def create_app(app_config):
     @app.route("/")
     def rootpath():
         return redirect(url_for("home.homepage"))
+
+    
+    # set globals imports
+    @app.context_processor
+    def add_imports():
+        return dict(datetime=datetime)
 
     
     # set automatic imports while running app with flask shell
