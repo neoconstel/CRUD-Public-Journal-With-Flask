@@ -9,3 +9,5 @@ A simple CRUD app demonstrating database operations
 - Database Migration
 - Integration with remote database
 
+
+The hosted project can currently be accessed throught this url: https://crud-public-journal.herokuapp.com/
