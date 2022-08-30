@@ -7,3 +7,5 @@ A simple CRUD app demonstrating database operations
 - Public vs Private data access
 - Pagination
 - Database Migration
+- Integration with remote database
+
