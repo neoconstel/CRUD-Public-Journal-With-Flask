@@ -10,4 +10,4 @@ A simple CRUD app demonstrating database operations
 - Integration with remote database
 
 
-The hosted project can currently be accessed throught this url: https://crud-public-journal.herokuapp.com/
+The hosted project can currently be accessed through this url: https://crud-public-journal.herokuapp.com/
