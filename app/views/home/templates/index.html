@@ -30,8 +30,11 @@
         </p>
         {% endif %}
         <p>Private: {{journal.is_private}}</p>
-        <p>Anonymous: {{journal.is_anonymous}}</p>
-        <p>{{journal.content}}</p>
+        <p>{{journal.content[:60]}}
+            {%- if journal.content|length > 60 -%}
+            .......
+            {%- endif -%}
+        </p>
     </div>
     <div class="action-modals">
         <!-- EditModal -->
