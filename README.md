@@ -1,5 +1,5 @@
 # CRUD-Public-Journal-With-Flask
-A simple CRUD app demonstrating database operations
+A simple flask-based CRUD app demonstrating database operations
 
 ## Main Features
 - Create, Read, Update, Delete
